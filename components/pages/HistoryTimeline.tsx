@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 
 const timeline = [
@@ -18,6 +19,32 @@ const timeline = [
 ];
 
 export default function HistoryTimeline() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!scrollRef.current) return;
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      const maxScroll = scrollWidth - clientWidth;
+      if (maxScroll <= 0) return;
+      const progress = scrollLeft / maxScroll;
+      const index = Math.min(
+        Math.floor(progress * timeline.length),
+        timeline.length - 1
+      );
+      setActiveIndex(index);
+    };
+
+    const el = scrollRef.current;
+    if (el) {
+      el.addEventListener("scroll", handleScroll, { passive: true });
+      return () => el.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
+
+  const current = timeline[activeIndex];
+
   return (
     <section className="bg-white py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,42 +54,50 @@ export default function HistoryTimeline() {
           </h2>
         </div>
 
-        <div className="max-w-5xl mx-auto">
-          {timeline.map((item, index) => (
-            <div
-              key={item.year}
-              className="flex items-start gap-6 mb-10"
-            >
-              <div className="flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-blue-400 flex items-center justify-center">
-                  <span className="text-2xl font-black text-white">{item.year}</span>
-                </div>
-                {index < timeline.length - 1 && (
-                  <div className="w-0.5 h-16 bg-blue-200 mt-2" />
-                )}
-              </div>
-
-              <div className="flex-1 pb-2">
-                <p className="text-xs font-bold uppercase tracking-wide text-blue-600 mb-1">
-                  {item.label}
-                </p>
-                <h3 className="text-lg font-semibold text-slate-900">
-                  {item.title}
-                </h3>
-                {item.img && (
-                  <div className="relative w-full max-w-md aspect-video rounded-lg overflow-hidden mt-3">
-                    <Image
-                      src={item.img}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 400px"
-                    />
-                  </div>
-                )}
-              </div>
+        <div className="flex flex-col lg:flex-row items-start gap-10">
+          <div className="lg:w-1/3 lg:sticky lg:top-24">
+            <div className="text-7xl sm:text-8xl font-black text-blue-400 leading-none">
+              20{current.year.slice(2)}
             </div>
-          ))}
+          </div>
+
+          <div className="flex-1">
+            <div
+              ref={scrollRef}
+              className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {timeline.map((item, index) => (
+                <div
+                  key={item.year}
+                  className={`snap-center shrink-0 w-72 rounded-xl border border-gray-100 bg-white shadow-sm p-5 transition-opacity duration-300 ${
+                    index <= activeIndex ? "opacity-100" : "opacity-40"
+                  }`}
+                >
+                  <p className="text-xs font-bold uppercase tracking-wide text-blue-600 mb-2">
+                    {item.label}
+                  </p>
+                  <h3 className="text-base font-semibold text-slate-900 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm font-medium text-blue-400 mb-3">
+                    {item.year}
+                  </p>
+                  {item.img && (
+                    <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 300px"
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
