@@ -37,29 +37,27 @@ export default function VisionMission() {
         <div className="absolute inset-0 bg-slate-900/80" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {sections.map((section, index) => (
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        {sections.map((section) => (
           <div
             key={section.title}
-            className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${
-              index !== 0 ? "mt-16" : ""
-            }`}
+            className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm"
           >
-            <div className={`flex items-center ${index % 2 === 1 ? "lg:justify-end" : "lg:justify-start"}`}>
+            <div className="flex flex-col sm:flex-row items-start gap-6">
               <div
-                className={`flex h-56 w-56 items-center justify-center rounded-3xl ${section.color} shadow-2xl`}
+                className={`flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl ${section.color} shadow-lg`}
               >
-                <span className="text-8xl font-black text-white">{section.letter}</span>
+                <span className="text-5xl font-black text-white">{section.letter}</span>
               </div>
-            </div>
 
-            <div className={`${index % 2 === 1 ? "lg:text-left" : "lg:text-left"}`}>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-                {section.title}
-              </h2>
-              <p className="mt-4 text-lg text-gray-200 leading-relaxed">
-                {section.text}
-              </p>
+              <div>
+                <h2 className="text-2xl font-extrabold text-white">
+                  {section.title}
+                </h2>
+                <p className="mt-3 text-gray-200 leading-relaxed">
+                  {section.text}
+                </p>
+              </div>
             </div>
           </div>
         ))}
