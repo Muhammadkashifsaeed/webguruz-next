@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import WhyChooseWebGuruz from "./WhyChoose";
+import VisionMission from "./VisionMission";
 
 export default function AboutHero() {
 
@@ -84,6 +85,7 @@ export default function AboutHero() {
       </section>
 
       <WhyChooseWebGuruz />
+      <VisionMission />
     </div>
   );
 }
