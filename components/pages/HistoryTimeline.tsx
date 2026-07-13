@@ -31,41 +31,35 @@ export default function HistoryTimeline() {
           {timeline.map((item, index) => (
             <div
               key={item.year}
-              className={`relative flex items-start gap-6 mb-12 ${
-                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-              }`}
+              className="flex items-start gap-6 mb-10"
             >
-              <div className="hidden md:block md:w-1/2" />
-
-              <div className="absolute left-4 md:left-1/2 -translate-x-1/2 z-10">
-                <div className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-400 ring-4 ring-white">
-                  <div className="h-2 w-2 rounded-full bg-white" />
+              <div className="flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full bg-blue-400 flex items-center justify-center">
+                  <span className="text-2xl font-black text-white">{item.year}</span>
                 </div>
+                {index < timeline.length - 1 && (
+                  <div className="w-0.5 h-16 bg-blue-200 mt-2" />
+                )}
               </div>
 
-              <div className={`ml-12 md:ml-0 md:w-1/2 ${index % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}>
-                <div className="rounded-xl border border-gray-100 bg-white shadow-sm p-6">
-                  <p className="text-xs font-bold uppercase tracking-wide text-blue-600 mb-1">
-                    {item.label}
-                  </p>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm font-medium text-blue-400 mb-3">
-                    {item.year}
-                  </p>
-                  {item.img && (
-                    <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden">
-                      <Image
-                        src={item.img}
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
-                    </div>
-                  )}
-                </div>
+              <div className="flex-1 pb-2">
+                <p className="text-xs font-bold uppercase tracking-wide text-blue-600 mb-1">
+                  {item.label}
+                </p>
+                <h3 className="text-lg font-semibold text-slate-900">
+                  {item.title}
+                </h3>
+                {item.img && (
+                  <div className="relative w-full max-w-md aspect-video rounded-lg overflow-hidden mt-3">
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           ))}
