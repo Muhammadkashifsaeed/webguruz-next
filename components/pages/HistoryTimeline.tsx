@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
 
 const timeline = [
   { year: "2025", label: "Career", title: "Platinum Partner in Hubspot", img: "/images/plm1.webp" },
@@ -20,9 +19,6 @@ const timeline = [
 ];
 
 export default function HistoryTimeline() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
     <section className="bg-white py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,7 +28,7 @@ export default function HistoryTimeline() {
           </h2>
         </div>
 
-        <div ref={ref} className="relative">
+        <div className="relative">
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-blue-200" />
 
           {timeline.map((item, index) => (
