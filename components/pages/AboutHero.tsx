@@ -4,6 +4,7 @@ import Image from "next/image";
 import WhyChooseWebGuruz from "./WhyChoose";
 import VisionMission from "./VisionMission";
 import PartnerGrowth from "./PartnerGrowth";
+import StatsGrid from "./StatsGrid";
 
 export default function AboutHero() {
 
@@ -88,6 +89,7 @@ export default function AboutHero() {
       <WhyChooseWebGuruz />
       <VisionMission />
       <PartnerGrowth />
+      <StatsGrid />
     </div>
   );
 }
