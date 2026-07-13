@@ -21,21 +21,28 @@ const timeline = [
 export default function HistoryTimeline() {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
     const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = el;
-      const maxScroll = scrollHeight - clientHeight;
-      if (maxScroll <= 0) return;
-      const progress = scrollTop / maxScroll;
-      const index = Math.min(
-        Math.floor(progress * timeline.length),
-        timeline.length - 1
-      );
-      setActiveIndex(index);
+      const containerCenter = el.scrollTop + el.clientHeight / 2;
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+
+      itemRefs.current.forEach((ref, index) => {
+        if (!ref) return;
+        const itemCenter = ref.offsetTop + ref.offsetHeight / 2;
+        const distance = Math.abs(containerCenter - itemCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setActiveIndex(closestIndex);
     };
 
     el.addEventListener("scroll", handleScroll, { passive: true });
@@ -55,7 +62,7 @@ export default function HistoryTimeline() {
 
         <div className="flex flex-col lg:flex-row items-start gap-10">
           <div className="lg:w-1/3 lg:sticky lg:top-24 flex justify-center lg:justify-start">
-            <div className="text-8xl sm:text-9xl font-black text-blue-400 leading-none">
+            <div className="text-8xl sm:text-9xl font-black text-slate-900 leading-none">
               20<span className="inline-block transition-all duration-300">{current.year.slice(2)}</span>
             </div>
           </div>
@@ -68,33 +75,38 @@ export default function HistoryTimeline() {
             {timeline.map((item, index) => (
               <div
                 key={item.year}
-                className={`rounded-xl border transition-all duration-300 ${
+                ref={(el) => {
+                  itemRefs.current[index] = el;
+                }}
+                className={`rounded-xl border p-5 transition-all duration-300 ${
                   index === activeIndex
                     ? "border-blue-200 shadow-md bg-white"
                     : "border-gray-100 bg-gray-50"
                 }`}
               >
-                {item.img && (
-                  <div className="relative w-full aspect-video rounded-t-xl overflow-hidden bg-gray-100">
-                    <Image
-                      src={item.img}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 600px"
-                    />
+                <div className="flex flex-col sm:flex-row gap-5 items-start">
+                  {item.img && (
+                    <div className="relative w-full sm:w-48 aspect-video rounded-lg overflow-hidden shrink-0">
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, 200px"
+                      />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <p className="text-xs font-bold uppercase tracking-wide text-blue-600 mb-1">
+                      {item.label}
+                    </p>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm font-medium text-blue-400">
+                      {item.year}
+                    </p>
                   </div>
-                )}
-                <div className="p-5">
-                  <p className="text-xs font-bold uppercase tracking-wide text-blue-600 mb-1">
-                    {item.label}
-                  </p>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm font-medium text-blue-400">
-                    {item.year}
-                  </p>
                 </div>
               </div>
             ))}
