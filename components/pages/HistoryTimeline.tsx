@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
 
 const timeline = [
   { year: "2025", label: "Career", title: "Platinum Partner in Hubspot", img: "/images/plm1.webp" },
@@ -32,14 +32,15 @@ export default function HistoryTimeline() {
           </h2>
         </div>
 
-        <div className="relative">
+        <div ref={ref} className="relative">
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-blue-200" />
 
           {timeline.map((item, index) => (
             <motion.div
               key={item.year}
               initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`relative flex items-center mb-12 ${
                 index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
