@@ -23,12 +23,14 @@ export default function HistoryTimeline() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
     const handleScroll = () => {
-      if (!scrollRef.current) return;
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      const maxScroll = scrollWidth - clientWidth;
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const maxScroll = scrollHeight - clientHeight;
       if (maxScroll <= 0) return;
-      const progress = scrollLeft / maxScroll;
+      const progress = scrollTop / maxScroll;
       const index = Math.min(
         Math.floor(progress * timeline.length),
         timeline.length - 1
@@ -36,11 +38,8 @@ export default function HistoryTimeline() {
       setActiveIndex(index);
     };
 
-    const el = scrollRef.current;
-    if (el) {
-      el.addEventListener("scroll", handleScroll, { passive: true });
-      return () => el.removeEventListener("scroll", handleScroll);
-    }
+    el.addEventListener("scroll", handleScroll, { passive: true });
+    return () => el.removeEventListener("scroll", handleScroll);
   }, []);
 
   const current = timeline[activeIndex];
@@ -55,48 +54,50 @@ export default function HistoryTimeline() {
         </div>
 
         <div className="flex flex-col lg:flex-row items-start gap-10">
-          <div className="lg:w-1/3 lg:sticky lg:top-24">
-            <div className="text-7xl sm:text-8xl font-black text-blue-400 leading-none">
-              20{current.year.slice(2)}
+          <div className="lg:w-1/3 lg:sticky lg:top-24 flex justify-center lg:justify-start">
+            <div className="text-8xl sm:text-9xl font-black text-blue-400 leading-none">
+              20<span className="inline-block transition-all duration-300">{current.year.slice(2)}</span>
             </div>
           </div>
 
-          <div className="flex-1">
-            <div
-              ref={scrollRef}
-              className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {timeline.map((item, index) => (
-                <div
-                  key={item.year}
-                  className={`snap-center shrink-0 w-72 rounded-xl border border-gray-100 bg-white shadow-sm p-5 transition-opacity duration-300 ${
-                    index <= activeIndex ? "opacity-100" : "opacity-40"
-                  }`}
-                >
-                  <p className="text-xs font-bold uppercase tracking-wide text-blue-600 mb-2">
+          <div
+            ref={scrollRef}
+            className="flex-1 max-h-[600px] overflow-y-auto space-y-6 pr-2"
+            style={{ scrollbarWidth: "thin" }}
+          >
+            {timeline.map((item, index) => (
+              <div
+                key={item.year}
+                className={`rounded-xl border transition-all duration-300 ${
+                  index === activeIndex
+                    ? "border-blue-200 shadow-md bg-white"
+                    : "border-gray-100 bg-gray-50"
+                }`}
+              >
+                {item.img && (
+                  <div className="relative w-full aspect-video rounded-t-xl overflow-hidden bg-gray-100">
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 600px"
+                    />
+                  </div>
+                )}
+                <div className="p-5">
+                  <p className="text-xs font-bold uppercase tracking-wide text-blue-600 mb-1">
                     {item.label}
                   </p>
-                  <h3 className="text-base font-semibold text-slate-900 mb-2">
+                  <h3 className="text-lg font-semibold text-slate-900 mb-1">
                     {item.title}
                   </h3>
-                  <p className="text-sm font-medium text-blue-400 mb-3">
+                  <p className="text-sm font-medium text-blue-400">
                     {item.year}
                   </p>
-                  {item.img && (
-                    <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                      <Image
-                        src={item.img}
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 300px"
-                      />
-                    </div>
-                  )}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
