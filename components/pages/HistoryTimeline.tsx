@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 const timeline = [
@@ -32,12 +31,8 @@ export default function HistoryTimeline() {
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-blue-200" />
 
           {timeline.map((item, index) => (
-            <motion.div
+            <div
               key={item.year}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`relative flex items-center mb-12 ${
                 index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
               }`}
@@ -74,7 +69,7 @@ export default function HistoryTimeline() {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
