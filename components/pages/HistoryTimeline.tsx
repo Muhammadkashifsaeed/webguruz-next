@@ -27,13 +27,11 @@ export default function HistoryTimeline() {
           </h2>
         </div>
 
-        <div className="relative">
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-blue-200" />
-
+        <div className="max-w-5xl mx-auto">
           {timeline.map((item, index) => (
             <div
               key={item.year}
-              className={`relative flex items-center mb-12 ${
+              className={`relative flex items-start gap-6 mb-12 ${
                 index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
               }`}
             >
