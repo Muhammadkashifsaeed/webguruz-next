@@ -14,8 +14,8 @@ const timeline = [
   { year: "2012", label: "Career", title: "Expansion", img: "/images/plm8.webp" },
   { year: "2011", label: "Career", title: "Upwork", img: "/images/plm9.webp" },
   { year: "2010", label: "Career", title: "Open Source Technologies", img: "/images/plm10.webp" },
-  { year: "2009", label: "Career", title: "Office in UK" },
-  { year: "2008", label: "Career", title: "Foundation" },
+  { year: "2009", label: "Career", title: "Office in UK", img: "/images/plm11.webp" },
+  { year: "2008", label: "Career", title: "Foundation", img: "/images/plm12.webp" },
 ];
 
 export default function HistoryTimeline() {
@@ -28,13 +28,16 @@ export default function HistoryTimeline() {
     if (!el) return;
 
     const handleScroll = () => {
-      const containerCenter = el.scrollTop + el.clientHeight / 2;
+      const containerRect = el.getBoundingClientRect();
+      const containerCenter = containerRect.top + containerRect.height / 2;
+
       let closestIndex = 0;
       let closestDistance = Infinity;
 
       itemRefs.current.forEach((ref, index) => {
         if (!ref) return;
-        const itemCenter = ref.offsetTop + ref.offsetHeight / 2;
+        const itemRect = ref.getBoundingClientRect();
+        const itemCenter = itemRect.top + itemRect.height / 2;
         const distance = Math.abs(containerCenter - itemCenter);
         if (distance < closestDistance) {
           closestDistance = distance;
