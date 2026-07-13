@@ -5,6 +5,7 @@ import WhyChooseWebGuruz from "./WhyChoose";
 import VisionMission from "./VisionMission";
 import PartnerGrowth from "./PartnerGrowth";
 import StatsGrid from "./StatsGrid";
+import HistoryTimeline from "./HistoryTimeline";
 
 export default function AboutHero() {
 
@@ -90,6 +91,7 @@ export default function AboutHero() {
       <VisionMission />
       <PartnerGrowth />
       <StatsGrid />
+      <HistoryTimeline />
     </div>
   );
 }
