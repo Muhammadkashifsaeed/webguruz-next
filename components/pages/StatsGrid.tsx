@@ -52,14 +52,14 @@ const item = {
 
 export default function StatsGrid() {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white pt-0 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={container}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6"
+          className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
           {stats.map((stat) => (
             <motion.div
