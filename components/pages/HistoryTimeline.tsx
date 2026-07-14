@@ -89,13 +89,13 @@ export default function HistoryTimeline() {
               >
                 <div className="flex flex-col sm:flex-row gap-5 items-start">
                   {item.img && (
-                    <div className="relative w-full sm:w-48 aspect-video rounded-lg overflow-hidden shrink-0">
+                    <div className="relative w-full sm:w-64 aspect-video rounded-lg overflow-hidden shrink-0">
                       <Image
                         src={item.img}
                         alt={item.title}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 640px) 100vw, 200px"
+                        sizes="(max-width: 640px) 100vw, 280px"
                       />
                     </div>
                   )}
