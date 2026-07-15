@@ -1,10 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { allServices } from "@/lib/site";
+import OrganicSeo from "@/components/pages/services/organic-seo/OrganicSeo";
+import LocalSeo from "@/components/pages/services/local-seo/LocalSeo";
 
 export function generateStaticParams() {
   return allServices.map((s) => ({ slug: s.slug }));
 }
+
+const componentMap: Record<string, React.ComponentType> = {
+  "organic-seo": OrganicSeo,
+  "local-seo": LocalSeo,
+};
 
 export default async function ServiceSubPage({
   params,
@@ -14,6 +21,11 @@ export default async function ServiceSubPage({
   const { slug } = await params;
   const item = allServices.find((s) => s.slug === slug);
   if (!item) notFound();
+
+  const SpecificComponent = componentMap[slug];
+  if (SpecificComponent) {
+    return <SpecificComponent />;
+  }
 
   const Icon = item.icon;
 

@@ -2,10 +2,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { aboutPages } from "@/lib/site";
+import StartupAndMVP from "@/components/pages/about/StartupAndMVP";
+import AgileSoftwareDevelopment from "@/components/pages/about/AgileSoftwareDevelopment";
+import ClientTestimonials from "@/components/pages/about/ClientTestimonials";
+import HowWeWork from "@/components/pages/about/HowWeWork";
+import AwardsRecognition from "@/components/pages/about/awards/AwardsRecognition";
+import LeadershipTeam from "@/components/pages/about/leadership/LeadershipTeam";
+import FullCycleProductDevelopment from "@/components/pages/about/fullcycle/FullCycleProductDevelopment";
 
 export function generateStaticParams() {
   return aboutPages.map((p) => ({ slug: p.slug }));
 }
+
+const componentMap: Record<string, React.ComponentType> = {
+  "startup-and-mvp": StartupAndMVP,
+  "agile-software-development": AgileSoftwareDevelopment,
+  "client-testimonials": ClientTestimonials,
+  "how-we-work": HowWeWork,
+  "awards-recognition": AwardsRecognition,
+  "leadership-team": LeadershipTeam,
+  "full-cycle-product-development": FullCycleProductDevelopment,
+};
 
 export default async function AboutSubPage({
   params,
@@ -15,6 +32,12 @@ export default async function AboutSubPage({
   const { slug } = await params;
   const item = aboutPages.find((p) => p.slug === slug);
   if (!item) notFound();
+
+  const SpecificComponent = componentMap[slug];
+
+  if (SpecificComponent) {
+    return <SpecificComponent />;
+  }
 
   const Icon = item.icon;
 

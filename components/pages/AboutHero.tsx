@@ -6,6 +6,8 @@ import VisionMission from "./VisionMission";
 import PartnerGrowth from "./PartnerGrowth";
 import StatsGrid from "./StatsGrid";
 import HistoryTimeline from "./HistoryTimeline";
+import ClientTestimonials from "./ClientTestimonials";
+import MeetOurLeaders from "./MeetOurLeaders";
 
 export default function AboutHero() {
 
@@ -92,6 +94,8 @@ export default function AboutHero() {
       <PartnerGrowth />
       <StatsGrid />
       <HistoryTimeline />
+      <ClientTestimonials />
+      <MeetOurLeaders />
     </div>
   );
 }
