@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { aboutPages } from "@/lib/site";
+import AboutHero from "@/components/pages/AboutHero";
 import StartupAndMVP from "@/components/pages/about/StartupAndMVP";
 import AgileSoftwareDevelopment from "@/components/pages/about/AgileSoftwareDevelopment";
 import ClientTestimonials from "@/components/pages/about/ClientTestimonials";
@@ -15,6 +16,7 @@ export function generateStaticParams() {
 }
 
 const componentMap: Record<string, React.ComponentType> = {
+  "our-company": AboutHero,
   "startup-and-mvp": StartupAndMVP,
   "agile-software-development": AgileSoftwareDevelopment,
   "client-testimonials": ClientTestimonials,

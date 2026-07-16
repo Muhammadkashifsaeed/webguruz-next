@@ -3,6 +3,14 @@ import { notFound } from "next/navigation";
 import { allServices } from "@/lib/site";
 import OrganicSeo from "@/components/pages/services/organic-seo/OrganicSeo";
 import LocalSeo from "@/components/pages/services/local-seo/LocalSeo";
+import TechnicalSeo from "@/components/pages/services/technical-seo/TechnicalSeo";
+import MobileSeo from "@/components/pages/services/mobile-seo/MobileSeo";
+import EcommerceSeo from "@/components/pages/services/ecommerce-seo/EcommerceSeo";
+import WhiteLabelSeo from "@/components/pages/services/white-label-seo/WhiteLabelSeo";
+import SmallBusinessSeo from "@/components/pages/services/small-business-seo/SmallBusinessSeo";
+import VoiceSearchOptimization from "@/components/pages/services/voice-search-optimization/VoiceSearchOptimization";
+import InternationalSeo from "@/components/pages/services/international-seo/InternationalSeo";
+import SeoConsultingStrategy from "@/components/pages/services/seo-consulting-strategy/SeoConsultingStrategy";
 
 export function generateStaticParams() {
   return allServices.map((s) => ({ slug: s.slug }));
@@ -11,6 +19,14 @@ export function generateStaticParams() {
 const componentMap: Record<string, React.ComponentType> = {
   "organic-seo": OrganicSeo,
   "local-seo": LocalSeo,
+  "technical-seo": TechnicalSeo,
+  "mobile-seo": MobileSeo,
+  "ecommerce-seo": EcommerceSeo,
+  "white-label-seo": WhiteLabelSeo,
+  "small-business-seo": SmallBusinessSeo,
+  "voice-search-optimization": VoiceSearchOptimization,
+  "international-seo": InternationalSeo,
+  "seo-consulting-strategy": SeoConsultingStrategy,
 };
 
 export default async function ServiceSubPage({

@@ -47,7 +47,7 @@ export default function Hero() {
             Crafting{" "}
             <span className="text-blue-300">
               Websites &amp; Digital Marketing Strategies
-            </span>that Convert
+            </span> that Convert
           </motion.h1>
 
           <motion.p
